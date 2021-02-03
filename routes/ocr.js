@@ -37,10 +37,10 @@ router.post('/:id', upload.single('file'), async (req, res) => {
 
         // console.log('Scanned text: ', text)
 
-        res.send(text)
+        res.write(text)
+        res.end()
         // if (text) {
         // console.log('if....')
-        // res.end()
         // }
 
         return;
