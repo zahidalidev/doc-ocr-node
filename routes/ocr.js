@@ -38,8 +38,8 @@ router.post('/:id', upload.single('file'), async (req, res) => {
         await fs.remove(req.file.path)
 
         console.log('Scanned text: ')
-        res.set('data', 'text/plain');
         res.write("text")
+        res.end()
 
         return;
     } catch (error) {
