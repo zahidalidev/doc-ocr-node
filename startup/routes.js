@@ -28,81 +28,88 @@ module.exports = (app) => {
 
     //     slowFunction(delayed.wait(20000));
     // });
-    app.use(function (req, res) {
-        var delayed = new DelayedResponse(req, res);
 
-        delayed.on('done', function (data) {
-            // handle "data" anyway you want, but don't forget to end the response!
-            console.log("data: ....", data)
-            res.end();
-        });
 
-        function slowFunction(callback) {
-            console.log("slow motion")
-            console.log("callback: ", callback)
-        }
 
-        slowFunction(delayed.wait());
+    // app.use(function (req, res) {
+    //     var delayed = new DelayedResponse(req, res);
 
-    });
-    // const extendTimeoutMiddleware = (req, res, next) => {
-    //     try {
-    //         const space = ' ';
-    //         let isFinished = false;
-    //         let isDataSent = false;
+    //     delayed.on('done', function (data) {
+    //         // handle "data" anyway you want, but don't forget to end the response!
+    //         console.log("data: ....", data)
+    //         res.end();
+    //     });
 
-    //         // Only extend the timeout for API requests
-    //         // if (!req.url.includes('/api')) {
-    //         //     next();
-    //         //     return;
-    //         // }
-
-    //         res.once('finish', () => {
-    //             isFinished = true;
-    //         });
-
-    //         res.once('end', () => {
-    //             isFinished = true;
-    //         });
-
-    //         res.once('close', () => {
-    //             isFinished = true;
-    //         });
-
-    //         // console.log('middle 1 res: ', res['data'])
-    //         console.log('middle 1 data', req.method)
-    //         // res.on('data', () => {
-    //         // Look for something other than our blank space to indicate that real
-    //         // data is now being sent back to the client.
-    //         // if (data !== space) {
-    //         //     isDataSent = true;
-    //         // }
-    //         // });
-
-    //         const waitAndSend = () => {
-    //             setTimeout(() => {
-
-    //                 console.log('middle 1 timeout')
-    //                 // If the response hasn't finished and hasn't sent any data back....
-    //                 if (!isFinished && !isDataSent) {
-    //                     // Need to write the status code/headers if they haven't been sent yet.
-
-    //                     res.write(space);
-
-    //                     // Wait another 15 seconds
-    //                     waitAndSend();
-    //                 }
-    //             }, 10000);
-    //         };
-
-    //         waitAndSend();
-    //         next();
-    //     } catch (error) {
-    //         console.log("error time 15s: ", error)
+    //     function slowFunction(callback) {
+    //         console.log("slow motion")
+    //         console.log("callback: ", callback)
     //     }
-    // };
 
-    // app.use(extendTimeoutMiddleware);
+    //     slowFunction(delayed.wait());
+
+    // });
+
+
+
+
+    const extendTimeoutMiddleware = (req, res, next) => {
+        try {
+            const space = ' ';
+            let isFinished = false;
+            let isDataSent = false;
+
+            // Only extend the timeout for API requests
+            // if (!req.url.includes('/api')) {
+            //     next();
+            //     return;
+            // }
+
+            res.once('finish', () => {
+                isFinished = true;
+            });
+
+            res.once('end', () => {
+                isFinished = true;
+            });
+
+            res.once('close', () => {
+                isFinished = true;
+            });
+
+            // console.log('middle 1 res: ', res['data'])
+            console.log('middle 1 data', req.method, res.write)
+            // res.on('data', () => {
+            // Look for something other than our blank space to indicate that real
+            // data is now being sent back to the client.
+            // if (data !== space) {
+            //     isDataSent = true;
+            // }
+            // });
+
+            const waitAndSend = () => {
+                setTimeout(() => {
+
+                    console.log('middle 1 timeout')
+                    // If the response hasn't finished and hasn't sent any data back....
+                    if (!isFinished && !isDataSent) {
+                        // Need to write the status code/headers if they haven't been sent yet.
+
+                        res.write(space);
+
+                        // Wait another 15 seconds
+                        waitAndSend();
+                    }
+                }, 10000);
+            };
+
+            waitAndSend();
+            next();
+        } catch (error) {
+            console.log("error time 15s: ", error)
+        }
+    };
+
+    app.use(extendTimeoutMiddleware);
 
     app.get("/api/testing", (req, res) => {
         res.send('Hi node')
