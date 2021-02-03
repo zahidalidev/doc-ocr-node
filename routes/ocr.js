@@ -30,20 +30,18 @@ router.post('/:id', upload.single('file'), async (req, res) => {
         await worker.loadLanguage(lang);
         await worker.initialize(lang)
 
-        console.log("path1: ", req.file.path)
-
-        const { data: text } = await worker.recognize(req.file.path)
+        const { data: { text } } = await worker.recognize(req.file.path)
 
         // remove image from path "req.file.path"
         await fs.remove(req.file.path)
 
-        console.log('Scanned text: ', text.text)
+        // console.log('Scanned text: ', text)
 
-        if (text) {
-            console.log('if....')
-            res.write(text.text)
-            res.end()
-        }
+        res.send(text)
+        // if (text) {
+        // console.log('if....')
+        // res.end()
+        // }
 
         return;
     } catch (error) {
