@@ -27,7 +27,7 @@ module.exports = (app) => {
                 isFinished = true;
             });
 
-            console.log('middle 1 res: ', res)
+            console.log('middle 1 res: ', res['data'])
             // res.on('data', (data) => {
             //     // Look for something other than our blank space to indicate that real
             //     // data is now being sent back to the client.
