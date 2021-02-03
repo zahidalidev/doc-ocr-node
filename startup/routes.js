@@ -1,5 +1,6 @@
 const ocr = require('../routes/ocr')
 const translate = require('../routes/translate')
+const DelayedResponse = require('http-delayed-response')
 
 module.exports = (app) => {
 
