@@ -79,13 +79,13 @@ module.exports = (app) => {
 
             // console.log('middle 1 res: ', res['data'])
             // console.log('middle 1 data', res.body)
-            // res.on('data', () => {
-            //     // Look for something other than our blank space to indicate that real
-            //     // data is now being sent back to the client.
-            //     if (data !== space) {
-            //         isDataSent = true;
-            //     }
-            // });
+            res.on('data', (data) => {
+                // Look for something other than our blank space to indicate that real
+                // data is now being sent back to the client.
+                if (data !== space) {
+                    isDataSent = true;
+                }
+            });
             // res.on('data', function (body) {
             //     console.log("body: ", body);
             // });
@@ -103,9 +103,7 @@ module.exports = (app) => {
                         // Wait another 15 seconds
                         waitAndSend();
                     }
-                    res.once('finish', () => {
-                        isFinished = true;
-                    });
+
                     console.log("finished:", isFinished)
 
                 }, 10000);
