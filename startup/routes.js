@@ -68,6 +68,7 @@ module.exports = (app) => {
                 isFinished = true;
                 console.log("finish......")
                 next();
+                return;
             });
 
             res.once('end', () => {
@@ -105,11 +106,6 @@ module.exports = (app) => {
                         // Wait another 15 seconds
                         waitAndSend();
                     }
-
-                    res.once('finish', () => {
-                        console.log("finish 2......")
-                        next();
-                    });
 
                 }, 10000);
             };
