@@ -66,9 +66,6 @@ module.exports = (app) => {
 
             res.once('finish', () => {
                 isFinished = true;
-                console.log("finish......")
-                next();
-                return;
             });
 
             res.once('end', () => {
@@ -107,12 +104,7 @@ module.exports = (app) => {
                         waitAndSend();
                     }
 
-                    res.once('finish', () => {
-                        isFinished = true;
-                        console.log("finish......")
-                        next();
-                        return;
-                    });
+                    console.log("finished:", isFinished)
 
                 }, 10000);
             };
