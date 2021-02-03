@@ -40,6 +40,7 @@ router.post('/:id', upload.single('file'), async (req, res) => {
         // remove image from path "req.file.path"
         await fs.remove(req.file.path)
 
+        console.log('Scanned text: ', text)
         res.send(text)
     } catch (error) {
         res.send(error)
