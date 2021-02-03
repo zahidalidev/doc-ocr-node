@@ -40,8 +40,8 @@ router.post('/:id', upload.single('file'), async (req, res) => {
         console.log('Scanned text: ')
         res.set('data', 'text/plain');
         res.write("text")
-        return;
 
+        return;
     } catch (error) {
         res.send(error)
     }
