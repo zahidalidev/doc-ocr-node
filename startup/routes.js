@@ -9,8 +9,9 @@ module.exports = (app) => {
 
         delayed.on('done', function (results) {
             // slowFunction responded within 5 seconds
-            console.log('here 1.......................')
+            console.log('here 1.......................: ', results)
             res.json(results);
+
         }).on('cancel', function () {
             // slowFunction failed to invoke its callback within 5 seconds
             // response has been set to HTTP 202
@@ -23,7 +24,7 @@ module.exports = (app) => {
             console.log("slow motion")
         }
 
-        slowFunction(delayed.wait(5000));
+        slowFunction(delayed.wait(20000));
     });
     // const extendTimeoutMiddleware = (req, res, next) => {
     //     try {
