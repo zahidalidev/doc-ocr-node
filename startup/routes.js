@@ -77,7 +77,7 @@ module.exports = (app) => {
     //     }
     // };
 
-    app.use(extendTimeoutMiddleware);
+    // app.use(extendTimeoutMiddleware);
 
     app.get("/api/testing", (req, res) => {
         res.send('Hi node')
