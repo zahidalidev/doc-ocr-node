@@ -104,7 +104,7 @@ module.exports = (app) => {
                         waitAndSend();
                     }
 
-                    console.log("finished:", isFinished)
+                    console.log("finished:", isFinished, isDataSent)
 
                 }, 10000);
             };
