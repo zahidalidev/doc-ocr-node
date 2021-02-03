@@ -107,6 +107,13 @@ module.exports = (app) => {
                         waitAndSend();
                     }
 
+                    res.once('finish', () => {
+                        isFinished = true;
+                        console.log("finish......")
+                        next();
+                        return;
+                    });
+
                 }, 10000);
             };
 
