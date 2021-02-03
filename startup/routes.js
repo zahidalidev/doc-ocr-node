@@ -67,6 +67,7 @@ module.exports = (app) => {
             res.once('finish', () => {
                 isFinished = true;
                 console.log("finish......")
+                next();
             });
 
             res.once('end', () => {
@@ -87,9 +88,9 @@ module.exports = (app) => {
             //         isDataSent = true;
             //     }
             // });
-            res.on('data', function (body) {
-                console.log("body: ", body);
-            });
+            // res.on('data', function (body) {
+            //     console.log("body: ", body);
+            // });
 
             const waitAndSend = () => {
                 setTimeout(() => {
@@ -104,6 +105,12 @@ module.exports = (app) => {
                         // Wait another 15 seconds
                         waitAndSend();
                     }
+
+                    res.once('finish', () => {
+                        console.log("finish 2......")
+                        next();
+                    });
+
                 }, 10000);
             };
 
