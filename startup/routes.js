@@ -28,7 +28,7 @@ module.exports = (app) => {
             });
 
             console.log('middle 1')
-            res.on('data', (data) => {
+            res.once('data', (data) => {
                 // Look for something other than our blank space to indicate that real
                 // data is now being sent back to the client.
                 if (data !== space) {
