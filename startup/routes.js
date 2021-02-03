@@ -1,6 +1,6 @@
 const ocr = require('../routes/ocr')
 const translate = require('../routes/translate')
-const DelayedResponse = require('http-delayed-response')
+const { DelayedResponse } = require('http-delayed-response')
 
 module.exports = (app) => {
 
@@ -18,6 +18,10 @@ module.exports = (app) => {
             res.write('sorry, this will take longer than expected...');
             res.end();
         });
+
+        function slowFunction(callback) {
+            console.log("slow motion")
+        }
 
         slowFunction(delayed.wait(5000));
     });
