@@ -3,62 +3,79 @@ const translate = require('../routes/translate')
 
 module.exports = (app) => {
 
-    const extendTimeoutMiddleware = (req, res, next) => {
-        try {
-            const space = ' ';
-            let isFinished = false;
-            let isDataSent = false;
+    app.use(function (req, res) {
+        var delayed = new DelayedResponse(req, res);
 
-            // Only extend the timeout for API requests
-            // if (!req.url.includes('/api')) {
-            //     next();
-            //     return;
-            // }
+        delayed.on('done', function (results) {
+            // slowFunction responded within 5 seconds
+            console.log('here 1.......................')
+            res.json(results);
+        }).on('cancel', function () {
+            // slowFunction failed to invoke its callback within 5 seconds
+            // response has been set to HTTP 202
+            console.log('here 2.......................')
+            res.write('sorry, this will take longer than expected...');
+            res.end();
+        });
 
-            res.once('finish', () => {
-                isFinished = true;
-            });
+        slowFunction(delayed.wait(5000));
+    });
+    // const extendTimeoutMiddleware = (req, res, next) => {
+    //     try {
+    //         const space = ' ';
+    //         let isFinished = false;
+    //         let isDataSent = false;
 
-            res.once('end', () => {
-                isFinished = true;
-            });
+    //         // Only extend the timeout for API requests
+    //         // if (!req.url.includes('/api')) {
+    //         //     next();
+    //         //     return;
+    //         // }
 
-            res.once('close', () => {
-                isFinished = true;
-            });
+    //         res.once('finish', () => {
+    //             isFinished = true;
+    //         });
 
-            // console.log('middle 1 res: ', res['data'])
-            console.log('middle 1 data', req.method)
-            // res.on('data', () => {
-            // Look for something other than our blank space to indicate that real
-            // data is now being sent back to the client.
-            // if (data !== space) {
-            //     isDataSent = true;
-            // }
-            // });
+    //         res.once('end', () => {
+    //             isFinished = true;
+    //         });
 
-            const waitAndSend = () => {
-                setTimeout(() => {
+    //         res.once('close', () => {
+    //             isFinished = true;
+    //         });
 
-                    console.log('middle 1 timeout')
-                    // If the response hasn't finished and hasn't sent any data back....
-                    if (!isFinished && !isDataSent) {
-                        // Need to write the status code/headers if they haven't been sent yet.
+    //         // console.log('middle 1 res: ', res['data'])
+    //         console.log('middle 1 data', req.method)
+    //         // res.on('data', () => {
+    //         // Look for something other than our blank space to indicate that real
+    //         // data is now being sent back to the client.
+    //         // if (data !== space) {
+    //         //     isDataSent = true;
+    //         // }
+    //         // });
 
-                        res.write(space);
+    //         const waitAndSend = () => {
+    //             setTimeout(() => {
 
-                        // Wait another 15 seconds
-                        waitAndSend();
-                    }
-                }, 10000);
-            };
+    //                 console.log('middle 1 timeout')
+    //                 // If the response hasn't finished and hasn't sent any data back....
+    //                 if (!isFinished && !isDataSent) {
+    //                     // Need to write the status code/headers if they haven't been sent yet.
 
-            waitAndSend();
-            next();
-        } catch (error) {
-            console.log("error time 15s: ", error)
-        }
-    };
+    //                     res.write(space);
+
+    //                     // Wait another 15 seconds
+    //                     waitAndSend();
+    //                 }
+    //             }, 10000);
+    //         };
+
+    //         waitAndSend();
+    //         next();
+    //     } catch (error) {
+    //         console.log("error time 15s: ", error)
+    //     }
+    // };
 
     app.use(extendTimeoutMiddleware);
 
