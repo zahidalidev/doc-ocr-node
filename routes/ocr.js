@@ -34,7 +34,7 @@ router.post('/:id', upload.single('file'), async (req, res) => {
 
         console.log("path: ", req.file.path)
 
-        const { data } = await worker.recognize(req.file.path)
+        const { data: text } = await worker.recognize(req.file.path)
 
         console.log("path2: ", req.file.path)
         // remove image from path "req.file.path"
