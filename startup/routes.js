@@ -4,55 +4,59 @@ const translate = require('../routes/translate')
 module.exports = (app) => {
 
     const extendTimeoutMiddleware = (req, res, next) => {
-        const space = ' ';
-        let isFinished = false;
-        let isDataSent = false;
+        try {
+            const space = ' ';
+            let isFinished = false;
+            let isDataSent = false;
 
-        // Only extend the timeout for API requests
-        if (!req.url.includes('/api')) {
-            next();
-            return;
-        }
-
-        res.once('finish', () => {
-            isFinished = true;
-        });
-
-        res.once('end', () => {
-            isFinished = true;
-        });
-
-        res.once('close', () => {
-            isFinished = true;
-        });
-
-        res.on('data', (data) => {
-            // Look for something other than our blank space to indicate that real
-            // data is now being sent back to the client.
-            if (data !== space) {
-                isDataSent = true;
+            // Only extend the timeout for API requests
+            if (!req.url.includes('/api')) {
+                next();
+                return;
             }
-        });
 
-        const waitAndSend = () => {
-            setTimeout(() => {
-                // If the response hasn't finished and hasn't sent any data back....
-                if (!isFinished && !isDataSent) {
-                    // Need to write the status code/headers if they haven't been sent yet.
-                    if (!res.headersSent) {
-                        res.writeHead(202);
-                    }
+            res.once('finish', () => {
+                isFinished = true;
+            });
 
-                    res.write(space);
+            res.once('end', () => {
+                isFinished = true;
+            });
 
-                    // Wait another 15 seconds
-                    waitAndSend();
+            res.once('close', () => {
+                isFinished = true;
+            });
+
+            res.on('data', (data) => {
+                // Look for something other than our blank space to indicate that real
+                // data is now being sent back to the client.
+                if (data !== space) {
+                    isDataSent = true;
                 }
-            }, 15000);
-        };
+            });
 
-        waitAndSend();
-        next();
+            const waitAndSend = () => {
+                setTimeout(() => {
+                    // If the response hasn't finished and hasn't sent any data back....
+                    if (!isFinished && !isDataSent) {
+                        // Need to write the status code/headers if they haven't been sent yet.
+                        if (!res.headersSent) {
+                            res.writeHead(202);
+                        }
+
+                        res.write(space);
+
+                        // Wait another 15 seconds
+                        waitAndSend();
+                    }
+                }, 15000);
+            };
+
+            waitAndSend();
+            next();
+        } catch (error) {
+            console.log("error time 15s: ", error)
+        }
     };
 
     app.use(extendTimeoutMiddleware);
