@@ -10,10 +10,10 @@ module.exports = (app) => {
             let isDataSent = false;
 
             // Only extend the timeout for API requests
-            if (!req.url.includes('/api')) {
-                next();
-                return;
-            }
+            // if (!req.url.includes('/api')) {
+            //     next();
+            //     return;
+            // }
 
             res.once('finish', () => {
                 isFinished = true;
@@ -27,16 +27,19 @@ module.exports = (app) => {
                 isFinished = true;
             });
 
+            console.log('middle 1')
             res.on('data', (data) => {
                 // Look for something other than our blank space to indicate that real
                 // data is now being sent back to the client.
                 if (data !== space) {
+                    console.log('middle 1 data')
                     isDataSent = true;
                 }
             });
 
             const waitAndSend = () => {
                 setTimeout(() => {
+                    console.log('middle 1 timeout')
                     // If the response hasn't finished and hasn't sent any data back....
                     if (!isFinished && !isDataSent) {
                         // Need to write the status code/headers if they haven't been sent yet.
@@ -46,7 +49,7 @@ module.exports = (app) => {
                         // Wait another 15 seconds
                         waitAndSend();
                     }
-                }, 15000);
+                }, 10000);
             };
 
             waitAndSend();
