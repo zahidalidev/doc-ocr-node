@@ -18,12 +18,14 @@ const upload = multer({ storage })
 
 router.post('/:id', upload.single('file'), async (req, res) => {
     try {
+        console.log('in ocr')
+
         const lang = req.params.id
         const createWorker = tessaract.createWorker;
-        const worker = createWorker();
-        // const worker = createWorker({
-        //     logger: m => console.log(m),
-        // });
+        // const worker = createWorker();
+        const worker = createWorker({
+            logger: m => console.log(m),
+        });
 
         await worker.load();
         await worker.loadLanguage(lang);
