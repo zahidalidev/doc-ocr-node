@@ -4,54 +4,6 @@ const DelayedResponse = require('http-delayed-response')
 
 module.exports = (app) => {
 
-    // app.use(function (req, res) {
-    //     var delayed = new DelayedResponse(req, res);
-
-    //     delayed.on('done', function (results) {
-    //         // slowFunction responded within 5 seconds
-    //         console.log('here 1.......................: ', results)
-    //         res.json(results);
-
-    //     }).on('cancel', function () {
-    //         // slowFunction failed to invoke its callback within 5 seconds
-    //         // response has been set to HTTP 202
-    //         console.log('here 2.......................')
-    //         res.write('sorry, this will take longer than expected...');
-    //         res.end();
-    //     });
-
-    //     function slowFunction(callback) {
-    //         console.log("slow motion")
-    //         console.log("callback: ", callback)
-    //         return "nothing"
-    //     }
-
-    //     slowFunction(delayed.wait(20000));
-    // });
-
-
-
-    // app.use(function (req, res) {
-    //     var delayed = new DelayedResponse(req, res);
-
-    //     delayed.on('done', function (data) {
-    //         // handle "data" anyway you want, but don't forget to end the response!
-    //         console.log("data: ....", data)
-    //         res.end();
-    //     });
-
-    //     function slowFunction(callback) {
-    //         console.log("slow motion")
-    //         console.log("callback: ", callback)
-    //     }
-
-    //     slowFunction(delayed.wait());
-
-    // });
-
-
-
-
     const extendTimeoutMiddleware = (req, res, next) => {
         try {
             const space = ' ';
