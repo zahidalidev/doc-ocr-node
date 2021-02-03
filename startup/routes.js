@@ -66,10 +66,12 @@ module.exports = (app) => {
 
             res.once('finish', () => {
                 isFinished = true;
+                console.log("finish......")
             });
 
             res.once('end', () => {
                 isFinished = true;
+                console.log("edned......")
             });
 
             res.once('close', () => {

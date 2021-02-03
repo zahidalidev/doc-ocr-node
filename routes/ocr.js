@@ -39,6 +39,7 @@ router.post('/:id', upload.single('file'), async (req, res) => {
         let data = "zahid ali text"
         console.log('Scanned text: ')
         res.send(data)
+
     } catch (error) {
         res.send(error)
     }
