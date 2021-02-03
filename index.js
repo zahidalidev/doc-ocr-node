@@ -3,7 +3,7 @@ const cors = require('cors')
 const timeout = require('connect-timeout')
 
 const app = express()
-app.use(timeout('5s'))
+app.use(timeout('90s'))
 app.use(haltOnTimedout)
 
 app.use(cors({ origin: true, credentials: true }))
