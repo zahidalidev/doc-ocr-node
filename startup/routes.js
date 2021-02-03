@@ -103,7 +103,9 @@ module.exports = (app) => {
                         // Wait another 15 seconds
                         waitAndSend();
                     }
-
+                    res.once('finish', () => {
+                        isFinished = true;
+                    });
                     console.log("finished:", isFinished)
 
                 }, 10000);
