@@ -22,7 +22,8 @@ module.exports = (app) => {
 
         function slowFunction(callback) {
             console.log("slow motion")
-            res.send('Slowed')
+            console.log("callback: ", callback)
+            return "nothing"
         }
 
         slowFunction(delayed.wait(20000));
