@@ -37,19 +37,19 @@ module.exports = (app) => {
                 }
             });
 
-            let timeWait = 20000;
+            let timeWait = 10000;
             let i = 0;
             const waitAndSend = () => {
                 setTimeout(() => {
 
                     if (i > 0) {
-                        timeWait = 10000
+                        timeWait = 5000
                     }
 
                     i = i + 1;
 
                     if (!isFinished && !isDataSent) {
-                        timeWait = 20000;
+                        timeWait = 10000;
                         i = 0
                     }
 
