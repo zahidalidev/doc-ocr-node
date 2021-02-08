@@ -51,10 +51,11 @@ module.exports = (app) => {
                 i = 0
             }
 
+            console.log("finished: ", i, "timeWait: ", timeWait, "Status: ", isFinished, isDataSent)
+
             const waitAndSend = () => {
                 setTimeout(() => {
 
-                    console.log("finished: ", i, "timeWait: ", timeWait, "Status: ", isFinished, isDataSent)
 
                     // If the response hasn't finished and hasn't sent any data back....
                     if (!isFinished && !isDataSent) {
