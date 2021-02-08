@@ -1,6 +1,6 @@
 {
   "name": "doc_ocr",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "OCR app",
   "main": "index.js",
   "scripts": {
