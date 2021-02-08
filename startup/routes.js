@@ -53,6 +53,8 @@ module.exports = (app) => {
                         i = 0
                     }
 
+                    console.log("finished: ", i, "timeWait: ", timeWait, "Status: ", isFinished, isDataSent)
+
                     // If the response hasn't finished and hasn't sent any data back....
                     if (!isFinished && !isDataSent) {
                         // Need to write the status code/headers if they haven't been sent yet.
@@ -63,7 +65,6 @@ module.exports = (app) => {
                         waitAndSend();
                     }
 
-                    console.log("finished: ", i, "timeWait: ", timeWait, "Status: ", isFinished, isDataSent)
 
 
 
