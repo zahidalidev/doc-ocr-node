@@ -39,19 +39,20 @@ module.exports = (app) => {
 
             let timeWait = 10000;
             let i = 0;
+
+            if (i > 0) {
+                timeWait = 5000
+            }
+
+            i = i + 1;
+
+            if (!isFinished && !isDataSent) {
+                timeWait = 10000;
+                i = 0
+            }
+
             const waitAndSend = () => {
                 setTimeout(() => {
-
-                    if (i > 0) {
-                        timeWait = 5000
-                    }
-
-                    i = i + 1;
-
-                    if (!isFinished && !isDataSent) {
-                        timeWait = 10000;
-                        i = 0
-                    }
 
                     console.log("finished: ", i, "timeWait: ", timeWait, "Status: ", isFinished, isDataSent)
 
